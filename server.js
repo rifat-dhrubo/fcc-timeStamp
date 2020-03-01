@@ -21,6 +21,12 @@ app.get('/api/timestamp', function(req, res) {
 app.get('/api/timestamp/:date_string', function(req, res) {
 	const { date_string } = req.params;
 	const date = new Date(date_string);
+	const error = date.toUTCString();
+	if (error === 'Invalid Date') {
+		res.json({
+			error: error,
+		});
+	}
 	res.json({
 		unix: Number(date.getTime()),
 		utc: date.toUTCString(),
